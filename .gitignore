@@ -3,3 +3,5 @@
 *.tar.xz
 src/
 pkg/
+
+*.code-workspace
