@@ -7,7 +7,6 @@ After=syslog.target
 # Type=simple
 User=traefik
 Group=traefik
-ExecStart=/usr/bin/traefik
 AmbientCapabilities=CAP_NET_BIND_SERVICE
 
 # configure service behavior
