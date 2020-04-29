@@ -1,14 +1,16 @@
-# Maintainer: Stefan Auditor <stefan.auditor@erdfisch.de>
+# Maintainer: Axel Haustant
 
 _pkgname='traefik'
 pkgname="${_pkgname}-bin"
 pkgver=2.2.0
-pkgrel=2
+pkgrel=3
 pkgdesc='A modern reverse proxy'
 arch=('i686' 'x86_64' 'armv6h' 'armv7h' 'aarch64')
 url='https://github.com/containous/traefik'
 license=('MIT')
-install="${_pkgname}.install"
+provides=('traefik')
+conflicts=('traefik')
+optdepends=('docker: docker backend support')
 backup=(
   'etc/traefik/traefik.yml'
   'etc/logrotate.d/traefik'
@@ -16,16 +18,22 @@ backup=(
 source=(
   'traefik.logrotate'
   'traefik.service'
+  'traefik.sysusers'
+  'traefik.tmpfiles'
   'traefik.yml'
+)
+sha512sums=(
+  'd1dfacff1e7a5b9f8e8b4796fcfbb9c1bed6151013708078361ac31ae221dd956f746ec1e0bc5bd09a05763438d877318259577f6f0178d42f011bd737c31207'
+  '1ed4bc8ea9c3c3bd811dd8b61c390b12e409590df03584759ff79c1f0da5a9da124bf57a8be4434a5dd0dfd9c16509ad6eabe2e38771141434968c7ef7e7191b'
+  '62b2fa4aa8b93de0f1c8a324b4645eaaf064cb42e4a79ddd0a93d5480f5ac2363b5d46e5bbe6116d9e71a0ffa6ff16804d59affd500edd651dd4297b15400f38'
+  'cae4c2fd0af4351bbba8b3b47926513eb953428294fb1f61acc6572920d54b30982ec8b1681fa326c0956fdafaf70904cfe55eae6a05765b5760e5cea831a30b'
+  'c5b24adfcc5f3c1de5fc9985298841b166652ed490bd6049720ba73af97605dfe744736ddd55e8a79ecdcac8515285f1acf9aa5e8929d8dd62dbeceda335ed60'
 )
 source_i686=("${_pkgname}-i686-${pkgver}.tar.gz"::"https://github.com/containous/${_pkgname}/releases/download/v${pkgver}/${_pkgname}_linux_386.tar.gz")
 source_x86_64=("${_pkgname}-x86_64-${pkgver}.tar.gz"::"https://github.com/containous/${_pkgname}/releases/download/v${pkgver}/${_pkgname}_v${pkgver}_linux_amd64.tar.gz")
 source_armv6h=("${_pkgname}-armv6h-${pkgver}.tar.gz"::"https://github.com/containous/${_pkgname}/releases/download/v${pkgver}/${_pkgname}_linux_armv6.tar.gz")
 source_armv7h=("${_pkgname}-armv7h-${pkgver}.tar.gz"::"https://github.com/containous/${_pkgname}/releases/download/v${pkgver}/${_pkgname}_linux_armv7.tar.gz")
 source_aarch64=("${_pkgname}-aarch64-${pkgver}.tar.gz"::"https://github.com/containous/${_pkgname}/releases/download/v${pkgver}/${_pkgname}_linux_arm64.tar.gz")
-sha512sums=('d1dfacff1e7a5b9f8e8b4796fcfbb9c1bed6151013708078361ac31ae221dd956f746ec1e0bc5bd09a05763438d877318259577f6f0178d42f011bd737c31207'
-            '1ed4bc8ea9c3c3bd811dd8b61c390b12e409590df03584759ff79c1f0da5a9da124bf57a8be4434a5dd0dfd9c16509ad6eabe2e38771141434968c7ef7e7191b'
-            '31aac961c3bc9981b7536171dcedd5387a40a614be3b7d43c58c0b6205a2499fba9e98a32feec1a1e158d1e32c41c8465e76bfc4b4eaa02621394aaa06c32856')
 sha256sums_i686=('55db02957e29ba32712639b65ceecea537f4af7eb5c15eb50c11bb78112f299f')
 sha256sums_x86_64=('eddea0507ad715c723662e7c10fdab554eb64379748278cd2d09403063e3e32f')
 sha256sums_armv6h=('21280ecc12c93e29cb727acb31a26852902fd87a1a2972f193fbcf548d841d0b')
@@ -38,12 +46,14 @@ prepare() {
 }
 
 package() {
-  install -d -m755 "${pkgdir}/var/log/traefik"
+  install -Dm644 "${srcdir}/traefik.sysusers" "${pkgdir}/usr/lib/sysusers.d/traefik.conf"
+  install -Dm644 "${srcdir}/traefik.tmpfiles" "${pkgdir}/usr/lib/tmpfiles.d/traefik.conf"
 
-  install -D -m644 "${srcdir}/traefik.logrotate" "${pkgdir}/etc/logrotate.d/traefik"
-  install -D -m644 "${srcdir}/traefik.service" "${pkgdir}/usr/lib/systemd/system/traefik.service"
-  install -D -m644 "${srcdir}/traefik.yml" "${pkgdir}/etc/traefik/traefik.yml"
+  install -Dm644 "${srcdir}/traefik.logrotate" "${pkgdir}/etc/logrotate.d/traefik"
+  install -Dm644 "${srcdir}/traefik.service" "${pkgdir}/usr/lib/systemd/system/traefik.service"
+  install -Dm644 "${srcdir}/traefik.yml" "${pkgdir}/etc/traefik/traefik.yml"
+  install -dm755 "${pkgdir}/etc/traefik/conf.d"
 
-  install -D -m644 "${srcdir}/LICENSE.md" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
-  install -D -m755 "${srcdir}/traefik" "${pkgdir}/usr/bin/${_pkgname}"
+  install -Dm644 "${srcdir}/LICENSE.md" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+  install -Dm755 "${srcdir}/traefik" "${pkgdir}/usr/bin/${_pkgname}"
 }

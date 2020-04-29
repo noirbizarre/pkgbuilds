@@ -1,0 +1,4 @@
+# Traefik user and
+u traefik - "Traefik user"
+# Obtain permissions on /var/run/docker.sock
+m traefik docker
