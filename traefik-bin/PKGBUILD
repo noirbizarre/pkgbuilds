@@ -2,8 +2,8 @@
 
 _pkgname='traefik'
 pkgname="${_pkgname}-bin"
-pkgver=2.2.0
-pkgrel=3
+pkgver=2.2.1
+pkgrel=1
 pkgdesc='A modern reverse proxy'
 arch=('i686' 'x86_64' 'armv6h' 'armv7h' 'aarch64')
 url='https://github.com/containous/traefik'
@@ -22,23 +22,21 @@ source=(
   'traefik.tmpfiles'
   'traefik.yml'
 )
-sha512sums=(
-  'd1dfacff1e7a5b9f8e8b4796fcfbb9c1bed6151013708078361ac31ae221dd956f746ec1e0bc5bd09a05763438d877318259577f6f0178d42f011bd737c31207'
-  '1ed4bc8ea9c3c3bd811dd8b61c390b12e409590df03584759ff79c1f0da5a9da124bf57a8be4434a5dd0dfd9c16509ad6eabe2e38771141434968c7ef7e7191b'
-  '62b2fa4aa8b93de0f1c8a324b4645eaaf064cb42e4a79ddd0a93d5480f5ac2363b5d46e5bbe6116d9e71a0ffa6ff16804d59affd500edd651dd4297b15400f38'
-  'cae4c2fd0af4351bbba8b3b47926513eb953428294fb1f61acc6572920d54b30982ec8b1681fa326c0956fdafaf70904cfe55eae6a05765b5760e5cea831a30b'
-  'c5b24adfcc5f3c1de5fc9985298841b166652ed490bd6049720ba73af97605dfe744736ddd55e8a79ecdcac8515285f1acf9aa5e8929d8dd62dbeceda335ed60'
-)
-source_i686=("${_pkgname}-i686-${pkgver}.tar.gz"::"https://github.com/containous/${_pkgname}/releases/download/v${pkgver}/${_pkgname}_linux_386.tar.gz")
+sha256sums=('da59d047177cae773d248684e8484d91c71201f5bc07fe72452efdf9bed1a7f4'
+            '077df184d627bf8cae608bf57db9d3a1331d7eeeee910370f08f90ea928b1b3e'
+            '4654ef0468251bcdf814007d5b435654b8db3e6ebaf1a279bcd4f451378d5d86'
+            'b39e7163550cf9069cbb5fb9186c582c134eb2d06037c6a8845de038591346c0'
+            '9ce657f898c40f3852fb5ba2b00221735281dff453400a4bfef278bfa86be3d8')
+sha256sums_i686=('757153997fb9b2a2a3004edfb86a9ad2a582809a198457b9ab4f2c238c264583')
+sha256sums_x86_64=('04139683e0cd6fc4e98eae9d469490d1a85074a0d810f640296f81991763657c')
+sha256sums_armv6h=('0b49c8c1b089b2b2096ceb3b730bd8eb1ef45a37a05f15b8f45bd6ba0f063ab5')
+sha256sums_armv7h=('012778da71c29a0dd9275c6981e00ffad4bb198f21c7d7c23c55e2620d6fbb50')
+sha256sums_aarch64=('4a4ad942bb5fa21ee6978e27fe5e2125ba7ecf222eac3ca69e6ad958234c4a37')
+source_i686=("${_pkgname}-i686-${pkgver}.tar.gz"::"https://github.com/containous/${_pkgname}/releases/download/v${pkgver}/${_pkgname}_v${pkgver}_linux_386.tar.gz")
 source_x86_64=("${_pkgname}-x86_64-${pkgver}.tar.gz"::"https://github.com/containous/${_pkgname}/releases/download/v${pkgver}/${_pkgname}_v${pkgver}_linux_amd64.tar.gz")
-source_armv6h=("${_pkgname}-armv6h-${pkgver}.tar.gz"::"https://github.com/containous/${_pkgname}/releases/download/v${pkgver}/${_pkgname}_linux_armv6.tar.gz")
-source_armv7h=("${_pkgname}-armv7h-${pkgver}.tar.gz"::"https://github.com/containous/${_pkgname}/releases/download/v${pkgver}/${_pkgname}_linux_armv7.tar.gz")
-source_aarch64=("${_pkgname}-aarch64-${pkgver}.tar.gz"::"https://github.com/containous/${_pkgname}/releases/download/v${pkgver}/${_pkgname}_linux_arm64.tar.gz")
-sha256sums_i686=('55db02957e29ba32712639b65ceecea537f4af7eb5c15eb50c11bb78112f299f')
-sha256sums_x86_64=('eddea0507ad715c723662e7c10fdab554eb64379748278cd2d09403063e3e32f')
-sha256sums_armv6h=('21280ecc12c93e29cb727acb31a26852902fd87a1a2972f193fbcf548d841d0b')
-sha256sums_armv7h=('4d0df2a3c01b848765960e6b36e9425717b79e410af418c40313d759cbfb698b')
-sha256sums_aarch64=('8ae7f320088f873e95cf3bf3f11521ca3d45074fe64390c5c9077a5dfcd19a62')
+source_armv6h=("${_pkgname}-armv6h-${pkgver}.tar.gz"::"https://github.com/containous/${_pkgname}/releases/download/v${pkgver}/${_pkgname}_v${pkgver}_linux_armv6.tar.gz")
+source_armv7h=("${_pkgname}-armv7h-${pkgver}.tar.gz"::"https://github.com/containous/${_pkgname}/releases/download/v${pkgver}/${_pkgname}_v${pkgver}_linux_armv7.tar.gz")
+source_aarch64=("${_pkgname}-aarch64-${pkgver}.tar.gz"::"https://github.com/containous/${_pkgname}/releases/download/v${pkgver}/${_pkgname}_v${pkgver}_linux_arm64.tar.gz")
 
 prepare() {
   mkdir -p "${srcdir}/${pkgname}-${pkgver}"
