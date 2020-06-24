@@ -1,0 +1,38 @@
+# Maintainer: Axel Haustant
+
+pkgname='mage'
+pkgver=1.9.0
+pkgrel=1
+pkgdesc='A Make/rake-like dev tool using Go'
+arch=('i686' 'x86_64' 'armv6h' 'armv7h' 'aarch64')
+url='https://github.com/magefile/mage'
+license=('Apache2')
+depends=('go')
+sha256sums_i686=('0e0bedec0b09480d223da0ec27455e16f36ae628bfdcaf8054cad73e2af23d9b')
+sha256sums_x86_64=('b6ae6771a12a2ccb15c9b6412ec8067d14ee07add4eeed5e2b44bf5c7c649bc1')
+sha256sums_armv6h=('ca840667943156a4d9f3c2119d52fe4d1aef738f7dbc08392c093f30404d2861')
+sha256sums_armv7h=('9d1d521019acb276466bf467cc228e57a223371cb5ae071bfe1890c72550b999')
+sha256sums_aarch64=('9d1d521019acb276466bf467cc228e57a223371cb5ae071bfe1890c72550b999')
+source_i686=("${pkgname}-i686-${pkgver}.tar.gz"::"https://github.com/magefile/${pkgname}/releases/download/v${pkgver}/${pkgname}_${pkgver}_Linux-32bit.tar.gz")
+source_x86_64=("${pkgname}-x86_64-${pkgver}.tar.gz"::"https://github.com/magefile/${pkgname}/releases/download/v${pkgver}/${pkgname}_${pkgver}_Linux-64bit.tar.gz")
+source_armv6h=("${pkgname}-armv6h-${pkgver}.tar.gz"::"https://github.com/magefile/${pkgname}/releases/download/v${pkgver}/${pkgname}_${pkgver}_Linux-ARM.tar.gz")
+source_armv7h=("${pkgname}-armv7h-${pkgver}.tar.gz"::"https://github.com/magefile/${pkgname}/releases/download/v${pkgver}/${pkgname}_${pkgver}_Linux-ARM64.tar.gz")
+source_aarch64=("${pkgname}-aarch64-${pkgver}.tar.gz"::"https://github.com/magefile/${pkgname}/releases/download/v${pkgver}/${pkgname}_${pkgver}_Linux-ARM64.tar.gz")
+
+prepare() {
+  mkdir -p "${srcdir}/${pkgname}-${pkgver}"
+  tar xvzf "${srcdir}/${pkgname}-${CARCH}-${pkgver}.tar.gz" -C "${srcdir}/${pkgname}-${pkgver}"
+}
+
+package() {
+  # install -Dm644 "${srcdir}/traefik.sysusers" "${pkgdir}/usr/lib/sysusers.d/traefik.conf"
+  # install -Dm644 "${srcdir}/traefik.tmpfiles" "${pkgdir}/usr/lib/tmpfiles.d/traefik.conf"
+
+  # install -Dm644 "${srcdir}/traefik.logrotate" "${pkgdir}/etc/logrotate.d/traefik"
+  # install -Dm644 "${srcdir}/traefik.service" "${pkgdir}/usr/lib/systemd/system/traefik.service"
+  # install -Dm644 "${srcdir}/traefik.yml" "${pkgdir}/etc/traefik/traefik.yml"
+  # install -dm755 "${pkgdir}/etc/traefik/conf.d"
+
+  install -Dm644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+  install -Dm755 "${srcdir}/mage" "${pkgdir}/usr/bin/${pkgname}"
+}
