@@ -10,7 +10,8 @@ from invoke import task
 
 #: Project absolute root path
 ROOT = Path(__file__).parent
-CWD = Path(os.getcwd()})
+CWD = Path(os.getcwd())
+PKG = CWD.stem
 
 
 def color(code):
@@ -66,6 +67,11 @@ def exit(text=None, code=-1):
     sys.exit(-1)
 
 
+def ensure_pkg():
+    if not CWD.parent == ROOT:
+        exit('This command needs to be executed from a package dir')
+
+
 @task
 def debug(ctx):
     header('header')
@@ -75,3 +81,30 @@ def debug(ctx):
     error('error')
     info(f'ROOT: {ROOT}')
     info(f'CWD: {CWD}')
+    info(f'PKG: {PKG}')
+
+
+@task
+def update(ctx):
+    ensure_pkg()
+    header('Updating signatures')
+    ctx.run('updpkgsums', pty=True)
+
+
+@task
+def build(ctx, force=False):
+    '''Build the package'''
+    ensure_pkg()
+    header(f'Building {PKG}')
+    cmd = 'makepkg'
+    if force:
+        cmd += ' -f'
+    ctx.run(cmd, pty=True)
+
+
+@task
+def install(ctx):
+    '''Install the package after a build if required'''
+    ensure_pkg()
+    header(f'Installing {PKG}')
+    ctx.run('makepkg -si', pty=True)
