@@ -6,3 +6,4 @@ src/
 pkg/
 
 *.code-workspace
+.venv
