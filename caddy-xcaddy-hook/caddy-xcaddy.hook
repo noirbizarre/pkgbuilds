@@ -1,0 +1,11 @@
+[Trigger]
+Operation=Install
+Operation=Upgrade
+Type=Package
+Target=caddy
+
+[Action]
+Description=Compiling custom caddy using xcaddy...
+When=PostTransaction
+Depends=xcaddy-bin
+Exec=/usr/local/bin/caddy-xcaddy.sh /usr/local/bin/caddy /etc/caddy/plugins

@@ -1,0 +1,43 @@
+# Maintainer: Axel Haustant
+pkgname=caddy-xcaddy-hook
+pkgver=1.0
+pkgrel=1
+pkgdesc='Pacman hook to compile a custom caddy using xcaddy on each caddy update'
+arch=('any')
+_gitname='caddy-xcaddy-hook'
+url="https://github.com/noirbizarre/pkgbuilds/${_gitname}"
+license=('MIT')
+depends=(
+    'caddy'
+    # 'xcaddy-bin'
+)
+source=(
+    'caddy-xcaddy.hook'
+    'caddy-xcaddy.sh'
+    'plugins'
+)
+backup=(
+    'etc/caddy/plugins'
+)
+sha256sums=(
+    '9c9d951b76510de472fd725620a602e9eab24d58bc9234f5cb06e13c3b0bc669'
+    'aec1f19bc2666cf69322010a31f2954ea4a343179e21954198dacfa884b0b277'
+    'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
+)
+
+build() {
+    cd ${srcdir}
+    PLUGINS=${srcdir}/plugins
+    LOCAL_PLUGINS=/etc/caddy/plugins
+    if [ -f "${LOCAL_PLUGINS}" ]; then
+        PLUGINS=$LOCAL_PLUGINS
+    fi
+    sh ${srcdir}/caddy-xcaddy.sh ${srcdir}/caddy $PLUGINS
+}
+
+package() {
+    install -Dm644 "${srcdir}/caddy-xcaddy.hook" "${pkgdir}/usr/share/libalpm/hooks/caddy-xcaddy.hook"
+    install -Dm755 "${srcdir}/caddy-xcaddy.sh" "${pkgdir}/usr/local/bin/caddy-xcaddy.sh"
+    install -Dm644 "${srcdir}/plugins" "${pkgdir}/etc/caddy/plugins"
+    install -Dm755 "${srcdir}/caddy" "${pkgdir}/usr/local/bin/caddy"
+}
